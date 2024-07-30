@@ -1,23 +1,33 @@
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { v4 as uuidv4 } from 'uuid';
 
 export const DYNAMO_CLIENT = new DynamoDBClient({
   region: process.env.ENVIRONMENT_REGION,
 });
 
-export const putItemHandler = async (item) => {
+export const putItemHandler = async ({ userId, title, description, complete }) => {
   try {
+
+    const todoId = uuidv4();
+
     const result = await DYNAMO_CLIENT.send(
       new PutItemCommand({
         TableName: process.env.DYNAMODB_NAME,
         Item: {
-          id: {
-            S: item.token,
-          },
           userId: {
-            S: item.userId,
+            S: userId,
           },
-          email: {
-            S: item.email,
+          todoId: {
+            S: todoId,
+          },
+          title: {
+            S: title,
+          },
+          description: {
+            S: description
+          },
+          complete: {
+            BOOL: complete
           },
           timestamp: {
             S: Date.now().toString(),
@@ -26,11 +36,13 @@ export const putItemHandler = async (item) => {
       })
     );
 
+
     return {
       statusCode: result["$metadata"].httpStatusCode,
       success: true,
     };
   } catch (error) {
+    console.log("ERROR::", error)
     throw {
       statusCode: error["$metadata"].httpStatusCode,
       message: error && error.message ? error.message : "Unknown error.",
