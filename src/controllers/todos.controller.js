@@ -106,7 +106,7 @@ const updateUserTodo = async (req, res) => {
     const result = await dynamoDBProvider.updateItemHandler({ userId, id, title, description, complete });
 
     if(result.Item.complete) {
-      const { data } = await axios.post(`http://localhost:8000/api/v1/notifications/send`, {
+      const { data } = await axios.post(`${process.env.NOTIFICATION_SERVICE_URL}/api/v1/notifications/send`, {
         sourceEmailAddress: "sibabalwe47@gmail.com",
         toEmailAddresses: req.email,
         messageBody: `You've marked item - ${result.Item.todoId} as completed`,
