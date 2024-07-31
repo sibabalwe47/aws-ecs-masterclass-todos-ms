@@ -11,6 +11,8 @@ route.get("/:id", sessionValidator, TodosController.getUserTodoByID);
 
 route.put("/:id", sessionValidator, TodosController.updateUserTodo);
 
-route.delete("/:id", sessionValidator, TodosController.removeUserTodoByID)
+route.delete("/:id", sessionValidator, TodosController.removeUserTodoByID);
+
+route.get("/health", TodosController.healthCheck)
 
 export default route;
