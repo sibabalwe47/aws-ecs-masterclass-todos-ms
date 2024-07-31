@@ -3,6 +3,8 @@ import TodosController from "../../controllers/todos.controller.js";
 import { sessionValidator } from '../../middleware/session-validator.js'
 const route = express.Router();
 
+route.get("/health", TodosController.healthCheck);
+
 route.post("/create", sessionValidator, TodosController.createUserTodo);
 
 route.get("/all", sessionValidator, TodosController.getAllUserTodos);
@@ -13,6 +15,6 @@ route.put("/:id", sessionValidator, TodosController.updateUserTodo);
 
 route.delete("/:id", sessionValidator, TodosController.removeUserTodoByID);
 
-route.get("/health", TodosController.healthCheck)
+
 
 export default route;

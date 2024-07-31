@@ -171,7 +171,7 @@ const healthCheck = async(req, res) => {
   Logger.writeLog({
     url: req.url,
     result: "OK",
-    msg: "Middleware service is healthy",
+    msg: "Todos service is healthy",
   });
   res.status(200).json({
     message: "OK",
