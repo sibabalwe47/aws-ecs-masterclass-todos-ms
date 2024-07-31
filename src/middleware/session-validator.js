@@ -5,7 +5,7 @@ const sessionValidator = async (req, res, next) => {
         const bearerHeader = req.headers['authorization'];
 
         if(bearerHeader) {
-            const { data } = await axios.post(`${process.env.MIDDLEWARE_SERVICE_URL}/api/v1/sessions/validate-session`, {
+            const { data } = await axios.post(`http://${process.env.MIDDLEWARE_SERVICE_URL}/api/v1/sessions/validate-session`, {
                 accessToken: bearerHeader.split(" ")[1]
             });
 
